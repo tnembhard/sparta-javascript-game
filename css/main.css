@@ -1,0 +1,30 @@
+body{
+    background-color: lightgrey;
+    text-align: center;
+}
+
+#box {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+	text-align: center;
+	margin: 50px auto ;
+}
+
+.col {
+  background: #333;
+  /* border: 1px solid white; */
+	height: 30px;
+	margin-right: -6px;
+  margin-top: -6px;
+  padding: 0;
+  width: 100%;
+  transition: .2s;
+}
+
+/* #bird{
+    position: element(coin);
+    right: 0;
+    bottom: 0;
+    transform: translateY(-200%);
+    transform: translateX(-10%);
+} */
