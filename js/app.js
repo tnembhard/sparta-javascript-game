@@ -11,14 +11,19 @@ class Bird{
         this.interval;
         this.click = document.createElement(`div`); 
         this.score = 0;
-        this.scoreTxt = document.getElementById(`score`)
-        this.gameBtn = document.getElementById(`gameBtn`);    
+        this.scoreTxt = document.getElementById(`score`);
+        this.gameBtn = document.getElementById(`gameBtn`);
+        this.resetBtn = document.getElementById(`resetBtn`); 
+        this.sound = document.createElement(`audio`)
+        this.sound.src = `./audio/Sonic_Ring_Sound_Effect.mp3`
+        this.sound.type = "audio/mpeg"
+
     }
     
     gridItems() {    
         // Creates the grid for the bird and coin 
-        const inputRow = 28; 
-        const inputCol = 18;     
+        const inputRow = 40; 
+        const inputCol = 19;     
         // Row Creator
         for (let i = 0; i < inputRow; i++) {
           const row = document.createElement(`div`);
@@ -105,26 +110,30 @@ class Bird{
             this.birdMove();
             this.score += 10;
             this.scoreTxt.innerText=`Your score is: ${this.score} points.`;
+            this.sound.load()
+            this.sound.play()
         });   
     }
 
     startGame(){
-        // Method to start and reset the game
-        while (this.box.hasChildNodes()) {
-            this.box.removeChild(this.box.lastChild);
-        }
+        // Method which calls buttons to start and reset the game
         this.gridItems()
         this.gameBtn.addEventListener(`click`, () => {
+            this.gameBtn.disabled = true;
             this.imgGrid(this.coin)
             this.imgGrid(this.click);
             this.placeBird()
             this.birdMove()
-            this.score = 0;         
+            this.scoreTxt.innerText =`Your score is: ${this.score} points.`;
             this.coinClick()
-        });
+        },);
+        this.resetBtn.addEventListener(`click`, () => {
+            location.reload();
+        })
     }
 }
 
+// Variables and Functions for the Modal used for the Instructions screen.
 const modal = document.getElementById('myModal');
 const moBtn = document.getElementById(`modalBtn`);
 let mContent = document.getElementById(`modal-content`);

@@ -4,26 +4,29 @@ body {
     font-family: 'ZCOOL KuaiLe', cursive;
     border: 5px solid black;
     border-radius: 20%;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 #box {
     display: grid;
-    grid-template-columns: repeat(28, 1fr);
+    grid-template-columns: repeat(40, 1fr);
 	text-align: center;
-    margin: 50px auto ;
+    margin: 15px auto ;
     padding-left: 4em;
     padding-right: 4em;
+    width: 450px;
     box-sizing: content-box;
     cursor: pointer;
 }
 .col {
     background: #333;
-    height: 30px;
-    margin-top: -6px;
+    height: 25px;
+    /* margin-top: -5px; */
     padding: 0;
     width: 100%;
 }
-/* BELOW IS THE MODAL STYLING */
+
 .modal {
     display: none; 
     position: fixed; 
@@ -38,12 +41,19 @@ body {
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
+    padding: 50px;
     border: 1px solid #888;
     border-radius: 30%;
     width: 70%; 
 }
 
-button{
-    background-color: lightgray;
+button {
+    background-color: dimgray;
+    font-family: 'ZCOOL KuaiLe', cursive;
+    border-radius: 20%;
+}
+
+#credit {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
 }
