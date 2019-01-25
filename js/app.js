@@ -1,9 +1,9 @@
-class Bird{
+class Snatcher{
     constructor(){
         this.grid = document.getElementsByClassName(`grids`);
         this.coin = document.createElement(`img`);
         this.coin.setAttribute(`id`, `coin`); 
-        this.coin.src = `/images/coin.png`; 
+        this.coin.src = `/images/yen.png`; 
         this.bird = document.createElement(`img`); 
         this.bird.src = `/images/bird.png`; 
         this.bird.style.position = "absolute";
@@ -14,10 +14,12 @@ class Bird{
         this.scoreTxt = document.getElementById(`score`);
         this.gameBtn = document.getElementById(`gameBtn`);
         this.resetBtn = document.getElementById(`resetBtn`); 
-        this.sound = document.createElement(`audio`)
-        this.sound.src = `./audio/Sonic_Ring_Sound_Effect.mp3`
-        this.sound.type = "audio/mpeg"
-
+        this.coinSound = document.createElement(`audio`);
+        this.coinSound.src = `./audio/Sonic_Ring_Sound_Effect.mp3`;
+        this.coinSound.type = "audio/mpeg";
+        this.crowSound = document.createElement(`audio`);
+        this.crowSound.src = `./audio/Crow_Sound_Effect.mp3`;
+        this.crowSound.type = "audio/mpeg";
     }
     
     gridItems() {    
@@ -33,7 +35,7 @@ class Bird{
           for (let j = 0; j < inputCol; j++) {
             const col = document.createElement(`div`);
             col.setAttribute(`class`, `col grids`); 
-            row.appendChild(col) 
+            row.appendChild(col);
           }    
         }   
     }    
@@ -46,7 +48,7 @@ class Bird{
             this.coinPos(this.grid[num]);
         } else if (image === this.click){
             this.clickPos(this.grid[num]);
-        }
+        };
     }
 
     coinPos(img) {
@@ -66,20 +68,22 @@ class Bird{
     birdMove(){
         //Function that moves the birds position to the coin.
         this.box.appendChild(this.bird);
+        this.crowSound.load();
+        this.crowSound.play();
         this.interval = setInterval( () => { 
-            if (Math.round(this.birdX) < Math.round(this.coinX)) {
+            if (Math.round(this.birdX) < Math.round(this.coinX-20)) {
                 this.birdX += 1;
                 this.bird.style.left = this.birdX+'px';           
-            } if (Math.round(this.birdX) > Math.round(this.coinX)){
+            } if (Math.round(this.birdX) > Math.round(this.coinX-20)){
                 this.birdX -= 1;
                 this.bird.style.left = this.birdX+'px';
-            }  if (Math.round(this.birdY) < Math.round(this.coinY)) {    
+            }  if (Math.round(this.birdY) < Math.round(this.coinY-23)) {  
                 this.birdY += 1;
                 this.bird.style.top = this.birdY+'px';         
-            } if (Math.round(this.birdY) > Math.round(this.coinY)){
+            } if (Math.round(this.birdY) > Math.round(this.coinY-23)){
                 this.birdY -= 1;
                 this.bird.style.top = this.birdY+'px';               
-            } this.loseCondition();  
+            } this.loseCondition();                
         }, 10); 
     }
 
@@ -94,10 +98,11 @@ class Bird{
 
     loseCondition(){
         //Function to dictate the conditions for the user to lose the game.
-        if (Math.round(this.birdX) == Math.round(this.coinX) && Math.round(this.birdY) == Math.round(this.coinY)) {          
+        if (Math.round(this.birdX) == Math.round(this.coinX-20) && Math.round(this.birdY) == Math.round(this.coinY-23)) {          
             this.scoreTxt.innerText=`You lose, your score is: ${this.score} points.`;
-            clearInterval(this.interval);          
-        }
+            clearInterval(this.interval);
+            this.resetBtn.style.display = "block";               
+        };
     }
 
     coinClick(){
@@ -110,41 +115,55 @@ class Bird{
             this.birdMove();
             this.score += 10;
             this.scoreTxt.innerText=`Your score is: ${this.score} points.`;
-            this.sound.load()
-            this.sound.play()
+            this.coinSound.load();
+            this.coinSound.play();
         });   
     }
 
     startGame(){
         // Method which calls buttons to start and reset the game
-        this.gridItems()
+        this.gridItems();
+        this.gameBtn.style.display = "block";
         this.gameBtn.addEventListener(`click`, () => {
-            this.gameBtn.disabled = true;
-            this.imgGrid(this.coin)
+            this.gameBtn.style.display = "none";
+            // this.gameBtn.disabled = true;
+            this.imgGrid(this.coin);
             this.imgGrid(this.click);
-            this.placeBird()
-            this.birdMove()
+            this.placeBird();
+            this.birdMove();
             this.scoreTxt.innerText =`Your score is: ${this.score} points.`;
-            this.coinClick()
+            this.coinClick();
         },);
         this.resetBtn.addEventListener(`click`, () => {
             location.reload();
-        })
+        });
     }
 }
 
-// Variables and Functions for the Modal used for the Instructions screen.
-const modal = document.getElementById('myModal');
-const moBtn = document.getElementById(`modalBtn`);
-let mContent = document.getElementById(`modal-content`);
-moBtn.addEventListener(`click`, () => {
-    modal.style.display = "block";
-})
-window.addEventListener(`click`, event => {
-    if (event.target == modal) {
-        modal.style.display = "none";
+class Modal{
+    constructor(){
+        this.modal = document.getElementById('myModal');
+        this.moBtn = document.getElementById(`modalBtn`);
+        this.moClose = document.getElementById(`modalClose`);        
     }
-})
 
-const newGame = new Bird();
+    button(){
+        this.moBtn.addEventListener(`click`, () => {
+                this.modal.style.display = "block";
+            });
+        window.addEventListener(`click`, event => {
+                if (event.target == this.modal) {
+                    this.modal.style.display = "none";
+                }
+            });
+        this.moClose.addEventListener(`click`, event => {            
+                this.modal.style.display = "none";
+        });
+    }        
+}
+
+const newGame = new Snatcher();
+const newModal = new Modal();
+
 newGame.startGame()
+newModal.button()
