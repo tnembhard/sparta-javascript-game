@@ -3,9 +3,9 @@ class Snatcher{
         this.grid = document.getElementsByClassName(`grids`);
         this.coin = document.createElement(`img`);
         this.coin.setAttribute(`id`, `coin`); 
-        this.coin.src = `/images/yen.png`; 
+        this.coin.src = `./images/yen.png`; 
         this.bird = document.createElement(`img`); 
-        this.bird.src = `/images/bird.png`; 
+        this.bird.src = `./images/bird.png`; 
         this.bird.style.position = "absolute";
         this.box = document.getElementById("box");
         this.interval;
@@ -77,7 +77,7 @@ class Snatcher{
             } if (Math.round(this.birdX) > Math.round(this.coinX-20)){
                 this.birdX -= 1;
                 this.bird.style.left = this.birdX+'px';
-            }  if (Math.round(this.birdY) < Math.round(this.coinY-23)) {  
+            }  if (Math.round(this.birdY) < Math.round(this.coinY-23)){  
                 this.birdY += 1;
                 this.bird.style.top = this.birdY+'px';         
             } if (Math.round(this.birdY) > Math.round(this.coinY-23)){
@@ -165,5 +165,5 @@ class Modal{
 const newGame = new Snatcher();
 const newModal = new Modal();
 
-newGame.startGame()
-newModal.button()
+newGame.startGame();
+newModal.button();
